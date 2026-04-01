@@ -1,0 +1,6 @@
+.vscode/
+__pycache__/
+*.m4a
+*.mp3
+*.mp4
+temp_audio.m4a
