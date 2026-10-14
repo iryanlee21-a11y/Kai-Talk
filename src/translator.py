@@ -13,27 +13,19 @@ from openai import OpenAI
 load_dotenv()  # 프로젝트 루트의 .env 파일에서 GROQ_API_KEY를 읽어옵니다.
 
 # ---------------------------------------------------------------- 설정
-MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
+MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")  # llama-3.3-70b-versatile은 2026-08-16 종료됨
 BASE_URL = "https://api.groq.com/openai/v1"
 DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "kai_slang_translated.csv")
 
-DICT_MARKER = "0:00"  # '기본 사전' 행을 구분하는 값 (추후 별도 컬럼으로 정리 예정)
+DICT_MARKER = "0:00"  # 구버전 CSV 호환용 (새 CSV는 kind 컬럼으로 구분)
 N_RELEVANT = 8        # 입력과 관련된 예시 최대 개수
 N_RANDOM = 5          # 말투 참고용 랜덤 예시 개수
-
-# 영어 기능어: 이 단어들이 겹친다고 관련 예시로 치지 않기 위한 목록
-STOPWORDS = {
-    "a", "an", "the", "i", "you", "he", "she", "it", "we", "they", "me", "him", "her",
-    "is", "am", "are", "was", "were", "be", "to", "of", "in", "on", "at", "for", "and",
-    "or", "but", "that", "this", "with", "my", "your", "so", "do", "did", "dont", "don't",
-    "yo", "like", "just", "got", "gotta", "its", "it's", "im", "i'm",
-}
 
 SYSTEM_PROMPT = """너는 미국 스트리머 Kai Cenat의 방송 영어를 한국 인터넷 방송(치지직, 아프리카TV, 디시, 펨코) 채팅창 말투로 옮기는 번역가야.
 
 규칙:
 1. 먼저 문장의 실제 의미를 정확히 파악하고, 그 의미를 한국 인방 말투로 옮겨. 원문에 없는 내용을 덧붙이거나 의미를 바꾸지 마.
-2. 아래 [참고 예시]에 같은 표현이 있으면 그 뉘앙스를 우선 따라.
+2. 아래 [참고 예시]에 같은 표현이 있으면 그 뉘앙스를 따르되, 단어를 그대로 끼워 넣지 말고 문장의 문법에 맞게 어미와 조사를 바꿔 자연스럽게 써.
 3. 슬랭이 없는 평범한 문장도 같은 말투로 번역해.
 4. 반말과 커뮤니티 말투(ㅋㅋ, ㄹㅇ, ~임 등)를 자연스럽게 써. 욕설은 원문의 강도에 맞을 때만 써.
 5. 번역문 한 줄만 출력해. 설명, 따옴표, 원문은 쓰지 마."""
@@ -57,33 +49,64 @@ def load_data():
     """데이터셋을 한 번만 읽어서 재사용합니다."""
     global _df
     if _df is None:
-        df = pd.read_csv(DATA_PATH)
-        _df = df.dropna(subset=["text", "translated_text"]).reset_index(drop=True)
+        df = pd.read_csv(DATA_PATH).dropna(subset=["text", "translated_text"])
+        if "kind" not in df.columns:  # 구버전 CSV: 0:00 타임스탬프 = 사전 항목
+            df["kind"] = df["timestamp"].astype(str).map(lambda t: "term" if t == DICT_MARKER else "sentence")
+        if "note" not in df.columns:
+            df["note"] = ""
+        if "style_ok" not in df.columns:
+            df["style_ok"] = "Y"
+        df["note"] = df["note"].fillna("")
+        df["style_ok"] = df["style_ok"].fillna("")
+        _df = df.reset_index(drop=True)
     return _df
 
 
 # ---------------------------------------------------------------- 예시 고르기
-def _words(s):
-    return set(re.findall(r"[a-z']+", s.lower()))
+def _stem(word):
+    """glazing / glazed / glaze 처럼 형태가 달라도 같은 어근으로 비교하기 위한 간단한 처리"""
+    for suffix in ("ing", "ed", "es", "s"):
+        if word.endswith(suffix) and len(word) - len(suffix) >= 3:
+            word = word[: -len(suffix)]
+            break
+    return word.rstrip("e")
 
 
 def find_relevant(df, user_input, limit=N_RELEVANT):
-    """입력 문장과 관련 있는 데이터 행을 점수순으로 최대 limit개 반환합니다."""
+    """입력에 등장하는 슬랭(사전 항목)과, 그 슬랭이 실제 문장에서 쓰인 예시를 찾아 반환합니다."""
     lowered = user_input.lower()
-    input_words = _words(lowered) - STOPWORDS
-    scored = []
-    for idx, row in df.iterrows():
+    input_stems = {_stem(w) for w in re.findall(r"[a-z']+", lowered)}
+    term_hits, matched_stems = [], set()
+    for idx, row in df[df["kind"] == "term"].iterrows():
         entry = str(row["text"]).lower().strip()
-        score = 0
-        if len(entry) >= 3 and entry in lowered:  # 사전 항목이 입력 안에 그대로 등장
-            score += 10
-        score += len(_words(entry) & input_words)  # 겹치는 단어 수
-        if score > 0 and str(row.get("timestamp", "")) == DICT_MARKER:
-            score += 2  # 기본 사전 행 가산점
-        if score > 0:
-            scored.append((score, idx))
-    scored.sort(reverse=True)
-    return df.loc[[idx for _, idx in scored[:limit]]]
+        if len(entry) < 3:  # W, L 같은 한 글자 항목은 오탐이 많아 제외
+            continue
+        if " " in entry:  # 여러 단어 표현은 문구 그대로 포함될 때만
+            matched = entry in lowered
+        else:
+            matched = _stem(entry) in input_stems
+        if matched:
+            term_hits.append(idx)
+            matched_stems.add(_stem(entry) if " " not in entry else entry)
+
+    # 같은 슬랭이 들어간 문장 예시 (말투 참고용으로 쓸 수 있는 것만, 슬랭당 최대 2개)
+    usage_hits = []
+    for stem in matched_stems:
+        count = 0
+        for idx, row in df[(df["kind"] == "sentence") & (df["style_ok"] == "Y")].iterrows():
+            text = str(row["text"]).lower()
+            found = stem in text if " " in stem else stem in {_stem(w) for w in re.findall(r"[a-z']+", text)}
+            if found and idx not in usage_hits:
+                usage_hits.append(idx)
+                count += 1
+                if count == 2:
+                    break
+    return df.loc[(term_hits + usage_hits)[:limit]]
+
+
+def _format_example(row):
+    note = f" ({row['note']})" if row["note"] else ""
+    return f"'{row['text']}'{note} -> {row['translated_text']}"
 
 
 def build_examples(user_input, mode="retrieval", seed=None):
@@ -91,18 +114,18 @@ def build_examples(user_input, mode="retrieval", seed=None):
     if mode == "none":
         return ""
     df = load_data()
+    style_pool = df[(df["kind"] == "sentence") & (df["style_ok"] == "Y") & (df["text"].str.len() <= 90)]  # 말투 참고용 문장 (너무 긴 것 제외)
     if mode == "random":
-        chosen = df.sample(min(len(df), N_RELEVANT + N_RANDOM), random_state=seed)
+        chosen = style_pool.sample(min(len(style_pool), N_RELEVANT + N_RANDOM), random_state=seed)
     elif mode == "retrieval":
         relevant = find_relevant(df, user_input)
-        rest = df.drop(relevant.index)
+        rest = style_pool.drop(relevant.index, errors="ignore")
         fillers = rest.sample(min(len(rest), N_RANDOM), random_state=seed)
         chosen = pd.concat([relevant, fillers])
     else:
         raise ValueError(f"알 수 없는 mode: {mode}")
 
-    lines = [f"'{r['text']}' -> {r['translated_text']}" for _, r in chosen.iterrows()]
-    return "[참고 예시]\n" + "\n".join(lines)
+    return "[참고 예시]\n" + "\n".join(_format_example(r) for _, r in chosen.iterrows())
 
 
 # ---------------------------------------------------------------- 번역
