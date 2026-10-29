@@ -16,12 +16,12 @@ import tempfile
 os.environ.setdefault("KMP_DUPLICATE_LIB_OK", "TRUE")  # Windows/Anaconda의 OpenMP 중복 로드 오류 방지
 
 RAW_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "raw")
-FIELDS = ["video_id", "start_sec", "time", "text", "avg_logprob", "no_speech_prob"]
+FIELDS = ["video_id", "start_sec", "time", "text", "avg_logprob", "no_speech_prob", "word_prob_mean", "word_prob_min"]
 
 # 음성 인식 힌트: 자주 나오는 이름과 슬랭을 알려주면 'Yeezy'가 'easy'로 나오는 오류가 줄어듭니다.
 # (너무 길게 쓰면 힌트 단어가 결과에 섞여 나올 수 있어요. 필요에 따라 수정하세요.)
 INITIAL_PROMPT = (
-    "Kai Cenat stream. Yeezy, Kanye, Vultures, Drake, Kendrick, Adidas, "
+    "Kai Cenat stream. Yeezy, Kanye, Vultures, Drake, Kendrick, Adidas, Nike, NOCTA, "
     "glazing, cooked, rizz, gyatt, no cap, deadass, on god, motion, lock in."
 )
 
@@ -41,12 +41,17 @@ def format_time(seconds):
 
 
 def segments_to_rows(video_id, segments):
-    """Whisper 결과를 CSV 한 줄씩으로 바꿉니다. 인식 신뢰도(avg_logprob 등)도 함께 저장합니다."""
+    """Whisper 결과를 CSV 한 줄씩으로 바꿉니다. 인식 신뢰도도 함께 저장합니다.
+
+    avg_logprob / no_speech_prob 는 약 30초 구간 단위 값이라 같은 구간의 줄은 값이 모두 같습니다.
+    줄마다 다른 신뢰도는 word_prob_mean / word_prob_min (단어별 확률의 평균 / 최솟값)을 보세요.
+    """
     rows = []
     for seg in segments:
         text = seg.text.strip()
         if not text:
             continue
+        probs = [w.probability for w in (seg.words or [])]
         rows.append({
             "video_id": video_id,
             "start_sec": round(seg.start, 1),
@@ -54,6 +59,8 @@ def segments_to_rows(video_id, segments):
             "text": text,
             "avg_logprob": round(seg.avg_logprob, 3),   # 0에 가까울수록 인식이 확실함
             "no_speech_prob": round(seg.no_speech_prob, 3),  # 높으면 말소리가 아닐 가능성
+            "word_prob_mean": round(sum(probs) / len(probs), 3) if probs else "",  # 낮을수록 이 줄의 인식이 불확실함
+            "word_prob_min": round(min(probs), 3) if probs else "",   # 가장 불확실한 단어
         })
     return rows
 
@@ -100,6 +107,7 @@ def run_miner(url, model_size="small", force=False):
             language="en",        # 언어 자동 감지 오류 방지
             beam_size=5,
             vad_filter=True,      # 말소리가 없는 구간에서 지어내는 문장을 줄임
+            word_timestamps=True, # 줄마다 단어별 확률을 얻기 위해 필요
             initial_prompt=INITIAL_PROMPT,
         )
         rows = segments_to_rows(video_id, segments)  # 실제 인식은 여기서 진행됨

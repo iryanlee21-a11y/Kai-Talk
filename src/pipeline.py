@@ -58,6 +58,7 @@ def run(url, tone="neutral", model_size="small", limit=None, max_no_speech=0.6, 
     if limit:
         raw = raw.head(limit)
     df = raw[["start_sec", "time", "text"]].copy()
+    df["conf"] = raw["word_prob_mean"] if "word_prob_mean" in raw.columns else ""   # 낮을수록 인식이 불확실 (검수 대상)
     df["translation"] = ""
 
     if os.path.exists(csv_path) and not force:                 # 이전에 번역한 줄 재사용

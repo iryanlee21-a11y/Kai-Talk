@@ -5,3 +5,6 @@ __pycache__/
 *.mp4
 temp_audio.m4a
 .env
+
+data/raw/
+data/output/
