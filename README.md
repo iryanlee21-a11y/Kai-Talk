@@ -1,4 +1,5 @@
 # 🎤 Kai-Talk: 스트리머 슬랭 번역기
+> **English summary** — Kai-Talk translates US streamer slang (e.g. "glazing", "cooked", "no cap") into natural Korean, since YouTube/Twitch auto-translate renders slang literally. It uses few-shot prompting with slang-dictionary retrieval (no fine-tuning). On 40 slang test sentences, retrieval raised meaning accuracy from 57% to 88%. Details below in Korean.
 
 **미국 스트리머의 슬랭과 밈을 한국어 자막으로 자연스럽게 옮기는 번역기와, 그 평가 결과**
 
