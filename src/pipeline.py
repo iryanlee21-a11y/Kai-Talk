@@ -21,6 +21,7 @@ import translator
 OUT_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "output")
 MAX_CAPTION_SEC = 6.0   # 자막 한 줄을 최대 이만큼만 보여줌
 MIN_CAPTION_SEC = 1.2
+CONTEXT_GAP_SEC = 15.0  # 이 시간보다 오래 전 줄은 문맥으로 쓰지 않음
 
 
 def srt_time(sec):
@@ -45,7 +46,16 @@ def write_srt(df, path):
         f.write("\n".join(lines))
 
 
-def run(url, tone="neutral", model_size="small", limit=None, max_no_speech=0.6, force=False):
+def get_context(df, idx, n):
+    """번역할 줄(idx) 바로 앞의 최근 n줄 중, 15초 이내이고 이미 번역된 줄을 (원문, 번역) 쌍으로 돌려줍니다."""
+    pos = df.index.get_loc(idx)
+    prev = df.iloc[max(0, pos - n):pos]
+    prev = prev[(df.at[idx, "start_sec"] - prev["start_sec"] <= CONTEXT_GAP_SEC) & (prev["translation"] != "")]
+    return list(zip(prev["text"], prev["translation"]))
+
+
+def run(url, tone="neutral", model_size="small", limit=None, max_no_speech=0.6, force=False,
+        context_lines=3, retranslate=False):
     raw_path = miner.run_miner(url, model_size=model_size, force=force)
     video_id = os.path.splitext(os.path.basename(raw_path))[0]
     os.makedirs(OUT_DIR, exist_ok=True)
@@ -61,18 +71,19 @@ def run(url, tone="neutral", model_size="small", limit=None, max_no_speech=0.6, 
     df["conf"] = raw["word_prob_mean"] if "word_prob_mean" in raw.columns else ""   # 낮을수록 인식이 불확실 (검수 대상)
     df["translation"] = ""
 
-    if os.path.exists(csv_path) and not force:                 # 이전에 번역한 줄 재사용
+    if os.path.exists(csv_path) and not force and not retranslate:   # 이전에 번역한 줄 재사용
         done = pd.read_csv(csv_path).dropna(subset=["translation"])
         cache = dict(zip(done["text"], done["translation"]))
         df["translation"] = df["text"].map(cache).fillna("")
         print(f"이전 번역 {int((df['translation'] != '').sum())}줄을 재사용합니다.")
 
     todo = df.index[df["translation"] == ""]
-    print(f"🌐 번역 중... ({len(todo)}줄, 톤: {tone})")
+    print(f"🌐 번역 중... ({len(todo)}줄, 톤: {tone}, 앞 문맥: {context_lines}줄)")
     for i, idx in enumerate(todo, 1):
         try:
             df.at[idx, "translation"] = translator.translate_slang(
-                df.at[idx, "text"], mode="retrieval", temperature=0, tone=tone)
+                df.at[idx, "text"], mode="retrieval", temperature=0, tone=tone,
+                context=get_context(df, idx, context_lines))
         except Exception as e:                                  # 한 줄 실패가 전체를 멈추지 않게
             print(f"  ⚠️ {df.at[idx, 'time']} 번역 실패: {e}")
         if i % 10 == 0:
@@ -93,5 +104,8 @@ if __name__ == "__main__":
     parser.add_argument("--model", default="small", help="Whisper 모델: base < small < medium (기본 small)")
     parser.add_argument("--limit", type=int, help="앞에서부터 N줄만 번역 (시험용)")
     parser.add_argument("--force", action="store_true", help="음성 인식과 번역을 처음부터 다시")
+    parser.add_argument("--retranslate", action="store_true", help="음성 인식 결과는 그대로 두고 번역만 다시")
+    parser.add_argument("--context", type=int, default=3, help="번역할 때 참고할 앞 문맥 줄 수 (기본 3, 0이면 사용 안 함)")
     args = parser.parse_args()
-    run(args.url, tone=args.tone, model_size=args.model, limit=args.limit, force=args.force)
+    run(args.url, tone=args.tone, model_size=args.model, limit=args.limit, force=args.force,
+        context_lines=args.context, retranslate=args.retranslate)

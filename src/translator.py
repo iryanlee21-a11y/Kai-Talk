@@ -156,12 +156,24 @@ def build_examples(user_input, mode="retrieval", seed=None, tone=DEFAULT_TONE):
 
 
 # ---------------------------------------------------------------- 번역
-def translate_slang(user_input, mode="retrieval", temperature=0.7, seed=None, tone=DEFAULT_TONE):
-    """영어 문장을 한국어로 번역합니다. tone: 'neutral'(기본) 또는 'inbang'(인방 말투)"""
+def build_context_block(context):
+    """직전 줄들(원문, 번역)을 상황 이해용 문맥으로 만듭니다. 번역 대상이 아님을 분명히 알려줍니다."""
+    if not context:
+        return ""
+    lines = "\n".join(f"- {en} -> {ko}" for en, ko in context)
+    return ("[앞 문맥: 상황을 이해하고 사람·제품 이름의 한국어 표기를 통일하는 데만 쓰고, 번역하지 마]\n"
+            f"{lines}\n\n")
+
+
+def translate_slang(user_input, mode="retrieval", temperature=0.7, seed=None, tone=DEFAULT_TONE, context=None):
+    """영어 문장을 한국어로 번역합니다. tone: 'neutral'(기본) 또는 'inbang'(인방 말투)
+
+    context: 직전 줄들의 [(영어 원문, 한국어 번역), ...] (선택). 영상 자막처럼 앞뒤 흐름이 중요할 때 사용합니다.
+    """
     if tone not in TONES:
         raise ValueError(f"알 수 없는 tone: {tone} ({list(TONES)} 중 선택)")
     examples = build_examples(user_input, mode=mode, seed=seed, tone=tone)
-    user_message = f"{examples}\n\n번역할 문장: \"{user_input}\"".strip()
+    user_message = f"{examples}\n\n{build_context_block(context)}번역할 문장: \"{user_input}\"".strip()
 
     for attempt in range(3):  # 일시적인 오류(속도 제한 등)는 최대 3번 재시도
         try:
