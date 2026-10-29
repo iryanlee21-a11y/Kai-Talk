@@ -5,6 +5,10 @@
     (data/eval/score_sheet_neutral.csv 를 열어 meaning, naturalness 열을 채우기)
     python src/evaluate.py summarize --tone neutral   # 조건별 평균 계산
 
+사전에 없는 슬랭으로 평가하려면 --set oov 를 붙입니다 (data/eval_set_oov.csv 사용, 결과 파일명에 _oov 가 붙음).
+    python src/evaluate.py run --tone neutral --set oov
+    python src/evaluate.py summarize --tone neutral --set oov
+
 채점 기준
     meaning      : 0 = 의미가 틀림, 1 = 대체로 맞지만 어색하거나 일부 누락, 2 = 정확함
     naturalness  : 1 ~ 5 (1 = 번역투/어색함, 5 = 한국어로 매우 자연스러움)
@@ -20,20 +24,28 @@ import pandas as pd
 import translator
 
 BASE = os.path.join(os.path.dirname(__file__), "..", "data")
-EVAL_SET = os.path.join(BASE, "eval_set.csv")
 OUT_DIR = os.path.join(BASE, "eval")
 CONDITIONS = ["none", "random", "retrieval"]
 
 
-def run(tone, seed=0):
+def paths(tone, eval_set):
+    """평가 세트 이름에 따라 입력/출력 파일 경로를 정합니다. (기본 세트는 기존 파일명 유지)"""
+    suffix = "" if eval_set == "eval_set" else f"_{eval_set.replace('eval_set_', '')}"
+    src = os.path.join(BASE, f"{eval_set}.csv")
+    name = lambda kind: os.path.join(OUT_DIR, f"{kind}_{tone}{suffix}.csv")
+    return src, name
+
+
+def run(tone, eval_set="eval_set", seed=0):
     os.makedirs(OUT_DIR, exist_ok=True)
-    items = pd.read_csv(EVAL_SET)
+    src, name = paths(tone, eval_set)
+    items = pd.read_csv(src)
     rows = []
     for _, item in items.iterrows():
         for cond in CONDITIONS:
             output = translator.translate_slang(item["text"], mode=cond, temperature=0, seed=seed, tone=tone)
             rows.append({"id": item["id"], "type": item["type"], "text": item["text"],
-                         "condition": cond, "output": output})
+                         "gloss": item.get("gloss", ""), "condition": cond, "output": output})
             time.sleep(0.3)  # 속도 제한 방지
         print(f"{item['id']}/{len(items)} 완료")
 
@@ -42,17 +54,19 @@ def run(tone, seed=0):
     for n, r in enumerate(rows, 1):
         r["row_id"] = n
     key = pd.DataFrame(rows)[["row_id", "id", "type", "condition"]]
-    sheet = pd.DataFrame(rows)[["row_id", "text", "output"]].assign(meaning="", naturalness="")
+    cols = ["row_id", "text", "output"] + (["gloss"] if "gloss" in pd.DataFrame(rows) and eval_set != "eval_set" else [])
+    sheet = pd.DataFrame(rows)[cols].assign(meaning="", naturalness="")
 
-    full.to_csv(os.path.join(OUT_DIR, f"outputs_{tone}.csv"), index=False, encoding="utf-8-sig")
-    key.to_csv(os.path.join(OUT_DIR, f"key_{tone}.csv"), index=False, encoding="utf-8-sig")
-    sheet.to_csv(os.path.join(OUT_DIR, f"score_sheet_{tone}.csv"), index=False, encoding="utf-8-sig")
-    print(f"저장 완료: {OUT_DIR}\\score_sheet_{tone}.csv 를 열어 meaning, naturalness 열을 채우세요.")
+    full.to_csv(name("outputs"), index=False, encoding="utf-8-sig")
+    key.to_csv(name("key"), index=False, encoding="utf-8-sig")
+    sheet.to_csv(name("score_sheet"), index=False, encoding="utf-8-sig")
+    print(f"저장 완료: {name('score_sheet')} 를 열어 meaning, naturalness 열을 채우세요.")
 
 
-def summarize(tone):
-    key = pd.read_csv(os.path.join(OUT_DIR, f"key_{tone}.csv"))
-    sheet = pd.read_csv(os.path.join(OUT_DIR, f"score_sheet_{tone}.csv"))
+def summarize(tone, eval_set="eval_set"):
+    _, name = paths(tone, eval_set)
+    key = pd.read_csv(name("key"))
+    sheet = pd.read_csv(name("score_sheet"))
     df = key.merge(sheet[["row_id", "meaning", "naturalness"]], on="row_id")
     df[["meaning", "naturalness"]] = df[["meaning", "naturalness"]].apply(pd.to_numeric, errors="coerce")
     if df[["meaning", "naturalness"]].isna().any().any():
@@ -65,9 +79,9 @@ def summarize(tone):
         return t.reindex(CONDITIONS).round(2)
 
     print("\n=== 전체 ===");  print(table(df))
-    for ty in ["slang", "plain"]:
+    for ty in [t for t in ["slang", "plain"] if t in set(df["type"])]:
         print(f"\n=== {ty} 문장 ===");  print(table(df[df['type'] == ty]))
-    out = os.path.join(OUT_DIR, f"summary_{tone}.csv")
+    out = name("summary")
     table(df).to_csv(out, encoding="utf-8-sig")
     print(f"\n저장: {out}")
 
@@ -76,5 +90,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Kai-Talk 번역 평가")
     parser.add_argument("command", choices=["run", "summarize"])
     parser.add_argument("--tone", choices=list(translator.TONES), default=translator.DEFAULT_TONE)
+    parser.add_argument("--set", dest="eval_set", default="eval_set", choices=["eval_set", "oov"],
+                        help="eval_set: 사전에 있는 슬랭 + 평범한 문장 (기본) / oov: 사전에 없는 슬랭")
     args = parser.parse_args()
-    run(args.tone) if args.command == "run" else summarize(args.tone)
+    eval_set = "eval_set" if args.eval_set == "eval_set" else "eval_set_oov"
+    run(args.tone, eval_set) if args.command == "run" else summarize(args.tone, eval_set)

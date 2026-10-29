@@ -1,0 +1,91 @@
+﻿id,type,text,gloss,condition,output
+1,slang,"That burger was bussin, bro.",진짜 맛있다 / 끝내준다,none,"그 버거 진짜 맛있었어, 야."
+1,slang,"That burger was bussin, bro.",진짜 맛있다 / 끝내준다,random,"그 버거 진짜 맛있었어, 브로."
+1,slang,"That burger was bussin, bro.",진짜 맛있다 / 끝내준다,retrieval,"그 버거 진짜 맛있었어, 브로."
+2,slang,"Honestly, that movie was mid.","그저 그런, 별로인",none,솔직히 그 영화는 그냥 그랬어.
+2,slang,"Honestly, that movie was mid.","그저 그런, 별로인",random,솔직히 그 영화는 그냥 그랬어.
+2,slang,"Honestly, that movie was mid.","그저 그런, 별로인",retrieval,솔직히 그 영화는 그냥 그랬어.
+3,slang,"Bet, I'll be there at eight.","좋아, 알겠어 (동의/수락)",none,"알겠어, 8시에 갈게."
+3,slang,"Bet, I'll be there at eight.","좋아, 알겠어 (동의/수락)",random,"알겠어, 8시에 갈게."
+3,slang,"Bet, I'll be there at eight.","좋아, 알겠어 (동의/수락)",retrieval,"알겠어, 8시에 갈게."
+4,slang,Her new song slaps.,(노래가) 진짜 좋다,none,그녀 새 노래 진짜 짱이야.
+4,slang,Her new song slaps.,(노래가) 진짜 좋다,random,그녀 새 노래 진짜 짱이야.
+4,slang,Her new song slaps.,(노래가) 진짜 좋다,retrieval,그녀 새 노래 진짜 짱이야.
+5,slang,He showed up in some crazy drip today.,멋진 패션/스타일,none,그 사람 오늘 완전 미친 옷 입고 나왔어.
+5,slang,He showed up in some crazy drip today.,멋진 패션/스타일,random,그가 오늘 완전 멋진 옷 입고 나왔어.
+5,slang,He showed up in some crazy drip today.,멋진 패션/스타일,retrieval,그 녀석 오늘 완전 멋진 옷 입고 나왔어.
+6,slang,She ghosted me after two dates.,말없이 연락을 끊다,none,두 번 데이트하고 나서 나한테 연락 안 했어.
+6,slang,She ghosted me after two dates.,말없이 연락을 끊다,random,두 번 데이트하고 나서 나한테 연락 끊었어.
+6,slang,She ghosted me after two dates.,말없이 연락을 끊다,retrieval,두 번 데이트하고 나서 그녀가 나한테 연락 끊었어.
+7,slang,Why are you so salty about losing?,"분해하는, 심통 난",none,왜 이렇게 지는 거에 짜증내?
+7,slang,Why are you so salty about losing?,"분해하는, 심통 난",random,왜 이렇게 지는 거에 그렇게 짜증내?
+7,slang,Why are you so salty about losing?,"분해하는, 심통 난",retrieval,왜 이렇게 지는 거에 그렇게 짜증내?
+8,slang,I'm lowkey nervous about tomorrow.,"은근히, 솔직히 조금",none,내일이 좀 긴장돼.
+8,slang,I'm lowkey nervous about tomorrow.,"은근히, 솔직히 조금",random,나는 내일에 대해 은근히 긴장돼.
+8,slang,I'm lowkey nervous about tomorrow.,"은근히, 솔직히 조금",retrieval,내일 좀 긴장돼.
+9,slang,He gave me the ick when he chewed with his mouth open.,갑자기 정떨어지는 느낌,none,그가 입을 벌리고 씹을 때 나 역겨웠어.
+9,slang,He gave me the ick when he chewed with his mouth open.,갑자기 정떨어지는 느낌,random,그가 입을 벌리고 씹을 때 나 완전 징그럽게 했어.
+9,slang,He gave me the ick when he chewed with his mouth open.,갑자기 정떨어지는 느낌,retrieval,그가 입을 벌리고 씹을 때 나 완전 꺼졌어.
+10,slang,Don't be such a simp for someone who ignores you.,좋아하는 사람에게 지나치게 헌신하는 사람,none,너를 무시하는 사람한테 그렇게 매달리지 마.
+10,slang,Don't be such a simp for someone who ignores you.,좋아하는 사람에게 지나치게 헌신하는 사람,random,너를 무시하는 사람한테 그렇게 바보같이 매달리지 마.
+10,slang,Don't be such a simp for someone who ignores you.,좋아하는 사람에게 지나치게 헌신하는 사람,retrieval,너를 무시하는 사람한테 그렇게 바보같이 매달리지 마.
+11,slang,Her outfit is snatched.,"완벽하게 잘 어울리는, 흠잡을 데 없는",none,그녀 옷 진짜 멋져.
+11,slang,Her outfit is snatched.,"완벽하게 잘 어울리는, 흠잡을 데 없는",random,그녀 옷 완전 멋져.
+11,slang,Her outfit is snatched.,"완벽하게 잘 어울리는, 흠잡을 데 없는",retrieval,그녀 옷 완전 멋져.
+12,slang,"Messi is the GOAT, no debate.",역대 최고,none,"메시는 역대 최고야, 논쟁할 여지 없어."
+12,slang,"Messi is the GOAT, no debate.",역대 최고,random,"메시는 역대 최고야, 논쟁할 여지 없어."
+12,slang,"Messi is the GOAT, no debate.",역대 최고,retrieval,"메시는 역대 최고야, 논쟁할 필요 없어."
+13,slang,He's always flexing his new shoes.,"과시하다, 자랑하다",none,그 친구는 새 신발을 자꾸 뽐내.
+13,slang,He's always flexing his new shoes.,"과시하다, 자랑하다",random,그는 새 신발을 늘 자랑해.
+13,slang,He's always flexing his new shoes.,"과시하다, 자랑하다",retrieval,걔는 새 신발을 자꾸 뽐내.
+14,slang,That song hits different at night.,"특별히 더 와닿는, 느낌이 다른",none,그 노래는 밤에 들으면 다르게 와.
+14,slang,That song hits different at night.,"특별히 더 와닿는, 느낌이 다른",random,그 노래는 밤에 들으면 완전 다르게 와.
+14,slang,That song hits different at night.,"특별히 더 와닿는, 느낌이 다른",retrieval,그 노래는 밤에 들으면 느낌이 달라.
+15,slang,She understood the assignment.,"해야 할 걸 정확히 해냈다, 제대로 했다",none,그녀는 과제 이해했어.
+15,slang,She understood the assignment.,"해야 할 걸 정확히 해냈다, 제대로 했다",random,그녀는 과제 이해했어.
+15,slang,She understood the assignment.,"해야 할 걸 정확히 해냈다, 제대로 했다",retrieval,그녀가 과제 이해했어.
+16,slang,"Go touch grass, you're online too much.","밖에 나가라, 인터넷 좀 그만해라",none,"밖에 나가서 풀도 좀 만져, 너 온라인 너무 많이 해."
+16,slang,"Go touch grass, you're online too much.","밖에 나가라, 인터넷 좀 그만해라",random,"밖에 나가서 좀 쉬어, 너 너무 오래 온라인에 있잖아."
+16,slang,"Go touch grass, you're online too much.","밖에 나가라, 인터넷 좀 그만해라",retrieval,"밖에 나가서 풀도 좀 밟아, 너 온라인에 너무 오래 있었잖아."
+17,slang,That guy lives in your head rent free.,계속 머릿속을 차지하고 있다,none,그 녀석은 네 머릿속에 공짜로 살아 있어.
+17,slang,That guy lives in your head rent free.,계속 머릿속을 차지하고 있다,random,그 녀석은 네 머릿속에 공짜로 살아.
+17,slang,That guy lives in your head rent free.,계속 머릿속을 차지하고 있다,retrieval,그 녀석이 네 머릿속에 공짜로 살아.
+18,slang,Chat is acting like NPCs right now.,생각 없이 똑같이 반응하는 사람들,none,채팅이 지금 NPC처럼 행동하고 있어.
+18,slang,Chat is acting like NPCs right now.,생각 없이 똑같이 반응하는 사람들,random,채팅이 지금 NPC들처럼 행동하고 있어.
+18,slang,Chat is acting like NPCs right now.,생각 없이 똑같이 반응하는 사람들,retrieval,채팅이 지금 NPC처럼 굴고 있어.
+19,slang,That was straight cringe.,"오글거리는, 민망한",none,그거 완전 오글이었어.
+19,slang,That was straight cringe.,"오글거리는, 민망한",random,그거 완전 오글했어.
+19,slang,That was straight cringe.,"오글거리는, 민망한",retrieval,그거 완전 오글이었어.
+20,slang,This beat is fire.,엄청 좋다,none,이 비트 진짜 대박이야.
+20,slang,This beat is fire.,엄청 좋다,random,이 비트 진짜 대박이야.
+20,slang,This beat is fire.,엄청 좋다,retrieval,이 비트 진짜 대박이야.
+21,slang,I was shook when he walked in.,"충격받은, 놀라서 흔들린",none,그가 들어왔을 때 완전 놀랐어.
+21,slang,I was shook when he walked in.,"충격받은, 놀라서 흔들린",random,그가 들어왔을 때 깜짝 놀랐어.
+21,slang,I was shook when he walked in.,"충격받은, 놀라서 흔들린",retrieval,그가 들어왔을 때 깜짝 놀랐어.
+22,slang,"Spill the tea, what happened?","소문, 가십 / 얘기해봐",none,"소식 좀 알려줘, 무슨 일 있었어?"
+22,slang,"Spill the tea, what happened?","소문, 가십 / 얘기해봐",random,"소문 좀 풀어봐, 무슨 일 있었어?"
+22,slang,"Spill the tea, what happened?","소문, 가십 / 얘기해봐",retrieval,"뭐 있었는지 말해봐, 무슨 일 있었어?"
+23,slang,He threw shade at me in front of everyone.,은근히 깎아내리는 말,none,그가 모두 앞에서 나한테 비아냥했어.
+23,slang,He threw shade at me in front of everyone.,은근히 깎아내리는 말,random,그가 다들 앞에서 나한테 비아냥했어.
+23,slang,He threw shade at me in front of everyone.,은근히 깎아내리는 말,retrieval,그가 나한테 다들 앞에서 비아냥했어.
+24,slang,"Big yikes, that was so awkward.","아이고, 민망하거나 안 좋은 상황에 대한 반응",none,"와, 진짜 어색했어."
+24,slang,"Big yikes, that was so awkward.","아이고, 민망하거나 안 좋은 상황에 대한 반응",random,"와, 진짜 어색했어."
+24,slang,"Big yikes, that was so awkward.","아이고, 민망하거나 안 좋은 상황에 대한 반응",retrieval,"와, 진짜 어색했어."
+25,slang,She ate that performance and left no crumbs.,"완벽하게 해냈다, 압도적으로 잘했다",none,그 퍼포먼스를 완전 장악하고 한 점도 남기지 않았어.
+25,slang,She ate that performance and left no crumbs.,"완벽하게 해냈다, 압도적으로 잘했다",random,그 공연을 완전 먹어치우고 빵 부스러기 하나도 남기지 않았어.
+25,slang,She ate that performance and left no crumbs.,"완벽하게 해냈다, 압도적으로 잘했다",retrieval,그 공연을 완전 먹어치우고 흔적 하나 남기지 않았어.
+26,slang,I can't even with him right now.,어이없어서 말도 안 나온다,none,지금 그 사람하고는 진짜 못 버틴다.
+26,slang,I can't even with him right now.,어이없어서 말도 안 나온다,random,지금은 저 녀석이랑은 못하겠어.
+26,slang,I can't even with him right now.,어이없어서 말도 안 나온다,retrieval,지금 그 녀석은 진짜 못 견디겠어.
+27,slang,He's mogging everyone in the room.,외모로 주변을 압도하다,none,그가 방 안 사람들 다 압도하고 있어.
+27,slang,He's mogging everyone in the room.,외모로 주변을 압도하다,random,그가 방 안에 있는 사람들 다를 압도하고 있어.
+27,slang,He's mogging everyone in the room.,외모로 주변을 압도하다,retrieval,그 사람 방 안에 있는 사람들 다 압도하고 있어.
+28,slang,He's got zero chill.,"여유가 없다, 쿨하지 못하게 과하게 반응한다",none,그 녀석은 여유가 하나도 없어.
+28,slang,He's got zero chill.,"여유가 없다, 쿨하지 못하게 과하게 반응한다",random,그 사람 여유 하나도 없어.
+28,slang,He's got zero chill.,"여유가 없다, 쿨하지 못하게 과하게 반응한다",retrieval,그 사람 차분함이 전혀 없어.
+29,slang,"Nah fam, that's not how it works.","친한 사람을 부르는 말 (야, 친구야)",none,"아니, 야, 그게 아니야."
+29,slang,"Nah fam, that's not how it works.","친한 사람을 부르는 말 (야, 친구야)",random,"아냐, 야, 그게 아니야."
+29,slang,"Nah fam, that's not how it works.","친한 사람을 부르는 말 (야, 친구야)",retrieval,"아니, 그게 그렇게 되는 게 아니야."
+30,slang,"Sheesh, that was crazy!",우와 (감탄/놀람),none,"와, 진짜 미쳤다!"
+30,slang,"Sheesh, that was crazy!",우와 (감탄/놀람),random,"와, 진짜 미쳤다!"
+30,slang,"Sheesh, that was crazy!",우와 (감탄/놀람),retrieval,"와, 진짜 미쳤다!"

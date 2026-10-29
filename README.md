@@ -1,7 +1,8 @@
 # 🎤 Kai-Talk: 스트리머 슬랭 번역기
-> **English summary** — Kai-Talk translates US streamer slang (e.g. "glazing", "cooked", "no cap") into natural Korean, since YouTube/Twitch auto-translate renders slang literally. It uses few-shot prompting with slang-dictionary retrieval (no fine-tuning). On 40 slang test sentences, retrieval raised meaning accuracy from 57% to 88%. Details below in Korean.
 
 **미국 스트리머의 슬랭과 밈을 한국어 자막으로 자연스럽게 옮기는 번역기와, 그 평가 결과**
+
+> **English summary** — Kai-Talk translates US streamer slang (e.g. "glazing", "cooked", "no cap") into natural Korean, since YouTube/Twitch auto-translate renders slang literally. It uses few-shot prompting with slang-dictionary retrieval (no fine-tuning). On 40 dictionary-slang test sentences, retrieval raised meaning accuracy from 57% to 88%; on 30 slang terms *not* in the dictionary, the difference between conditions was small (67% / 73% / 77%). Details below in Korean.
 
 ## 왜 만들었나
 
@@ -58,20 +59,34 @@
 | 랜덤 예시 | 55% | 3.25 |
 | **검색 예시** | **88%** | **3.80** |
 
-- 슬랭 문장에서는 **관련 예시를 검색해서 넣을 때** 의미 정확률이 크게 올랐고, 랜덤 예시는 효과가 없었습니다.
+- 사전에 있는 슬랭 문장에서는 **관련 예시를 검색해서 넣을 때** 의미 정확률이 크게 올랐고, 랜덤 예시는 효과가 없었습니다.
 - 평범한 문장 10개에서는 조건 간 차이가 거의 없었습니다 (100% / 100% / 90%, 한 문장 차이).
+
+### 사전에 없는 슬랭 (30문장)
+
+위 평가의 슬랭은 모두 사전에 있는 단어입니다. 사전에 없는 슬랭(`bussin`, `mid`, `ghosted`, `touch grass`, `understood the assignment` 등 30개)으로 같은 방식으로 다시 평가했습니다. 이 경우 검색 조건도 해당 슬랭의 뜻풀이는 찾지 못하므로, 세 조건의 차이는 말투 예시의 유무뿐입니다.
+
+| 조건 | 의미 정확률 | 자연스러움 |
+|---|---|---|
+| 예시 없음 | 67% | 3.73 |
+| 랜덤 예시 | 73% | 3.63 |
+| 검색 예시 | 77% | 3.80 |
+
+- 조건 간 차이가 작고(30문장 기준 1문장 = 3.3%p), 한 번만 실행해서 우연과 구분하기 어렵습니다.
+- `bussin`, `mid`, `GOAT`처럼 널리 쓰이는 슬랭은 예시 없이도 대체로 번역됐고, 틀린 경우는 주로 관용구(`understood the assignment`, `ate and left no crumbs`)였습니다.
+- 사전의 효과는 **모델이 잘 모르는 표현을 보완할 때** 나타나는 것으로 보입니다. 관용구 위주로 사전을 늘리는 것이 다음 과제입니다.
 
 ### 평가의 한계
 
-- **테스트에 쓴 슬랭이 모두 사전에 들어 있습니다.** 이 결과는 "사전에 있는 슬랭을 잘 번역하는가"이며, 사전에 없는 새 슬랭에 일반화되는지는 측정하지 못했습니다.
-- 문장 수가 적고(40개), 한 번만 실행했습니다.
+- 첫 번째 평가의 슬랭은 모두 사전에 들어 있어, 그 결과만으로는 새 슬랭에 일반화되는지 알 수 없습니다. 사전 밖 슬랭 평가에서는 조건 간 차이가 작았습니다(위 표).
+- 문장 수가 적고(각 40개, 30개), 한 번만 실행했습니다.
 - 채점자가 한 명입니다. AI가 초벌 채점한 뒤 직접 검수했습니다. 
 - 테스트 문장을 직접 작성했습니다.
 
 ## 데이터
 
 - **범위**: Kai Cenat 방송에서만 추출했습니다. 발음이 또렷해 음성 인식(STT) 정확도가 높고, 본인이 만든 용어가 많기 때문입니다. 다른 스트리머에는 검증하지 않았습니다.
-- **구성** (`data/kai_slang_translated.csv`): 슬랭 사전 49개 + 문장 약 140개. 항목마다 뜻풀이(`note`)와 두 가지 톤의 번역(`translated_neutral`, `translated_text`)이 있습니다.
+- **구성** (`data/kai_slang_translated.csv`): 슬랭 사전 49개 + 문장 145개. 항목마다 뜻풀이(`note`)와 두 가지 톤의 번역(`translated_neutral`, `translated_text`)이 있습니다.
 - **제작 과정**: 영상에서 전사한 문장을 LLM으로 초벌 번역한 뒤 직접 검수·수정했습니다. 중립 톤 번역과 일부 사용 예문은 AI의 도움을 받아 작성했습니다.
 
 ## 개발하면서 고친 문제들
@@ -97,7 +112,9 @@ python src/translator.py                  # 번역기 (기본 neutral)
 python src/translator.py --tone inbang    # 인방 말투
 python src/evaluate.py run                # 평가 번역 생성
 python src/evaluate.py summarize          # 채점 후 집계
+python src/evaluate.py run --set oov      # 사전에 없는 슬랭 평가 (summarize도 --set oov)
 python src/miner.py "유튜브 주소"         # 영상에서 문장 추출 (FFmpeg 필요)
+python src/pipeline.py "유튜브 주소"      # 영상 -> 문장 추출 -> 번역 -> CSV + 자막(.srt)
 ```
 
 ## 구조
@@ -107,11 +124,13 @@ Kai-Talk/
 ├── src/
 │   ├── translator.py   # 슬랭 검색 + few-shot 번역
 │   ├── evaluate.py     # 조건별 번역 평가
-│   └── miner.py        # 유튜브 → STT → 문장 CSV
+│   ├── miner.py        # 유튜브 → STT → 문장 CSV
+│   └── pipeline.py     # 유튜브 링크 → 번역된 CSV + 자막(.srt)
 ├── data/
 │   ├── kai_slang_translated.csv   # 슬랭 사전 + 문장 번역
 │   ├── kai_slang_raw.csv          # 추출된 원문 스크립트
-│   └── eval_set.csv               # 평가용 테스트 문장 50개
+│   ├── eval_set.csv               # 평가용 테스트 문장 50개
+│   └── eval_set_oov.csv           # 사전에 없는 슬랭 평가용 30문장
 └── requirements.txt
 ```
 
@@ -121,7 +140,9 @@ Python, pandas, Faster-Whisper(STT), yt-dlp, Groq API(`openai/gpt-oss-120b`)
 
 ## Roadmap
 
-- [ ] 사전에 없는 슬랭에 대한 평가 추가
+- [x] 사전에 없는 슬랭에 대한 평가 추가
+- [ ] 관용구 위주로 사전 확장 후 재평가
+- [ ] 영상 링크 → 번역 자막 파이프라인 검증 (`pipeline.py`)
 - [ ] 다른 스트리머 문장으로 검증
 - [ ] 채점자 추가
 - [ ] 실시간 자막 오버레이

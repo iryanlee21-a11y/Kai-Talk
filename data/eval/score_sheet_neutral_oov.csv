@@ -1,0 +1,91 @@
+﻿row_id,text,output,gloss,meaning,naturalness
+1,"Bet, I'll be there at eight.","알겠어, 8시에 갈게.","좋아, 알겠어 (동의/수락)",2,5
+2,"Bet, I'll be there at eight.","알겠어, 8시에 갈게.","좋아, 알겠어 (동의/수락)",2,5
+3,Don't be such a simp for someone who ignores you.,너를 무시하는 사람한테 그렇게 바보같이 매달리지 마.,좋아하는 사람에게 지나치게 헌신하는 사람,2,4
+4,She understood the assignment.,그녀가 과제 이해했어.,"해야 할 걸 정확히 해냈다, 제대로 했다",0,2
+5,Why are you so salty about losing?,왜 이렇게 지는 거에 그렇게 짜증내?,"분해하는, 심통 난",2,3
+6,Her new song slaps.,그녀 새 노래 진짜 짱이야.,(노래가) 진짜 좋다,2,4
+7,He gave me the ick when he chewed with his mouth open.,그가 입을 벌리고 씹을 때 나 완전 꺼졌어.,갑자기 정떨어지는 느낌,0,2
+8,I can't even with him right now.,지금 그 사람하고는 진짜 못 버틴다.,어이없어서 말도 안 나온다,1,3
+9,That song hits different at night.,그 노래는 밤에 들으면 느낌이 달라.,"특별히 더 와닿는, 느낌이 다른",2,5
+10,This beat is fire.,이 비트 진짜 대박이야.,엄청 좋다,2,4
+11,That guy lives in your head rent free.,그 녀석은 네 머릿속에 공짜로 살아 있어.,계속 머릿속을 차지하고 있다,1,2
+12,"Big yikes, that was so awkward.","와, 진짜 어색했어.","아이고, 민망하거나 안 좋은 상황에 대한 반응",2,4
+13,That guy lives in your head rent free.,그 녀석이 네 머릿속에 공짜로 살아.,계속 머릿속을 차지하고 있다,1,2
+14,"Nah fam, that's not how it works.","아니, 야, 그게 아니야.","친한 사람을 부르는 말 (야, 친구야)",2,4
+15,"That burger was bussin, bro.","그 버거 진짜 맛있었어, 브로.",진짜 맛있다 / 끝내준다,2,4
+16,"Messi is the GOAT, no debate.","메시는 역대 최고야, 논쟁할 여지 없어.",역대 최고,2,5
+17,I'm lowkey nervous about tomorrow.,나는 내일에 대해 은근히 긴장돼.,"은근히, 솔직히 조금",2,3
+18,"Bet, I'll be there at eight.","알겠어, 8시에 갈게.","좋아, 알겠어 (동의/수락)",2,5
+19,He's always flexing his new shoes.,그는 새 신발을 늘 자랑해.,"과시하다, 자랑하다",2,4
+20,She understood the assignment.,그녀는 과제 이해했어.,"해야 할 걸 정확히 해냈다, 제대로 했다",0,2
+21,I'm lowkey nervous about tomorrow.,내일 좀 긴장돼.,"은근히, 솔직히 조금",2,5
+22,"Go touch grass, you're online too much.","밖에 나가서 풀도 좀 밟아, 너 온라인에 너무 오래 있었잖아.","밖에 나가라, 인터넷 좀 그만해라",1,3
+23,He gave me the ick when he chewed with his mouth open.,그가 입을 벌리고 씹을 때 나 역겨웠어.,갑자기 정떨어지는 느낌,1,4
+24,He's mogging everyone in the room.,그가 방 안에 있는 사람들 다를 압도하고 있어.,외모로 주변을 압도하다,1,2
+25,She ate that performance and left no crumbs.,그 퍼포먼스를 완전 장악하고 한 점도 남기지 않았어.,"완벽하게 해냈다, 압도적으로 잘했다",1,2
+26,He's got zero chill.,그 사람 차분함이 전혀 없어.,"여유가 없다, 쿨하지 못하게 과하게 반응한다",2,3
+27,"Sheesh, that was crazy!","와, 진짜 미쳤다!",우와 (감탄/놀람),2,5
+28,Chat is acting like NPCs right now.,채팅이 지금 NPC들처럼 행동하고 있어.,생각 없이 똑같이 반응하는 사람들,2,4
+29,Her new song slaps.,그녀 새 노래 진짜 짱이야.,(노래가) 진짜 좋다,2,4
+30,That was straight cringe.,그거 완전 오글했어.,"오글거리는, 민망한",2,4
+31,"That burger was bussin, bro.","그 버거 진짜 맛있었어, 브로.",진짜 맛있다 / 끝내준다,2,4
+32,That was straight cringe.,그거 완전 오글이었어.,"오글거리는, 민망한",2,3
+33,He threw shade at me in front of everyone.,그가 다들 앞에서 나한테 비아냥했어.,은근히 깎아내리는 말,2,3
+34,He's got zero chill.,그 사람 여유 하나도 없어.,"여유가 없다, 쿨하지 못하게 과하게 반응한다",2,5
+35,He showed up in some crazy drip today.,그 녀석 오늘 완전 멋진 옷 입고 나왔어.,멋진 패션/스타일,2,5
+36,I can't even with him right now.,지금 그 녀석은 진짜 못 견디겠어.,어이없어서 말도 안 나온다,1,3
+37,"Honestly, that movie was mid.",솔직히 그 영화는 그냥 그랬어.,"그저 그런, 별로인",2,5
+38,He's got zero chill.,그 녀석은 여유가 하나도 없어.,"여유가 없다, 쿨하지 못하게 과하게 반응한다",2,4
+39,She ghosted me after two dates.,두 번 데이트하고 나서 나한테 연락 안 했어.,말없이 연락을 끊다,1,4
+40,I'm lowkey nervous about tomorrow.,내일이 좀 긴장돼.,"은근히, 솔직히 조금",2,4
+41,Her outfit is snatched.,그녀 옷 완전 멋져.,"완벽하게 잘 어울리는, 흠잡을 데 없는",2,4
+42,"Nah fam, that's not how it works.","아냐, 야, 그게 아니야.","친한 사람을 부르는 말 (야, 친구야)",2,4
+43,"Sheesh, that was crazy!","와, 진짜 미쳤다!",우와 (감탄/놀람),2,5
+44,This beat is fire.,이 비트 진짜 대박이야.,엄청 좋다,2,4
+45,He threw shade at me in front of everyone.,그가 모두 앞에서 나한테 비아냥했어.,은근히 깎아내리는 말,2,3
+46,"Spill the tea, what happened?","소식 좀 알려줘, 무슨 일 있었어?","소문, 가십 / 얘기해봐",2,4
+47,He gave me the ick when he chewed with his mouth open.,그가 입을 벌리고 씹을 때 나 완전 징그럽게 했어.,갑자기 정떨어지는 느낌,1,2
+48,"Go touch grass, you're online too much.","밖에 나가서 좀 쉬어, 너 너무 오래 온라인에 있잖아.","밖에 나가라, 인터넷 좀 그만해라",2,4
+49,"Sheesh, that was crazy!","와, 진짜 미쳤다!",우와 (감탄/놀람),2,5
+50,"That burger was bussin, bro.","그 버거 진짜 맛있었어, 야.",진짜 맛있다 / 끝내준다,2,5
+51,That was straight cringe.,그거 완전 오글이었어.,"오글거리는, 민망한",2,3
+52,"Honestly, that movie was mid.",솔직히 그 영화는 그냥 그랬어.,"그저 그런, 별로인",2,5
+53,She ghosted me after two dates.,두 번 데이트하고 나서 나한테 연락 끊었어.,말없이 연락을 끊다,2,5
+54,"Nah fam, that's not how it works.","아니, 그게 그렇게 되는 게 아니야.","친한 사람을 부르는 말 (야, 친구야)",2,5
+55,Don't be such a simp for someone who ignores you.,너를 무시하는 사람한테 그렇게 바보같이 매달리지 마.,좋아하는 사람에게 지나치게 헌신하는 사람,2,4
+56,Her outfit is snatched.,그녀 옷 진짜 멋져.,"완벽하게 잘 어울리는, 흠잡을 데 없는",2,4
+57,"Messi is the GOAT, no debate.","메시는 역대 최고야, 논쟁할 필요 없어.",역대 최고,2,5
+58,He showed up in some crazy drip today.,그가 오늘 완전 멋진 옷 입고 나왔어.,멋진 패션/스타일,2,4
+59,This beat is fire.,이 비트 진짜 대박이야.,엄청 좋다,2,4
+60,That song hits different at night.,그 노래는 밤에 들으면 완전 다르게 와.,"특별히 더 와닿는, 느낌이 다른",1,3
+61,"Big yikes, that was so awkward.","와, 진짜 어색했어.","아이고, 민망하거나 안 좋은 상황에 대한 반응",2,4
+62,Why are you so salty about losing?,왜 이렇게 지는 거에 그렇게 짜증내?,"분해하는, 심통 난",2,3
+63,He's mogging everyone in the room.,그가 방 안 사람들 다 압도하고 있어.,외모로 주변을 압도하다,1,4
+64,He's mogging everyone in the room.,그 사람 방 안에 있는 사람들 다 압도하고 있어.,외모로 주변을 압도하다,1,4
+65,"Big yikes, that was so awkward.","와, 진짜 어색했어.","아이고, 민망하거나 안 좋은 상황에 대한 반응",2,4
+66,I was shook when he walked in.,그가 들어왔을 때 완전 놀랐어.,"충격받은, 놀라서 흔들린",2,5
+67,She understood the assignment.,그녀는 과제 이해했어.,"해야 할 걸 정확히 해냈다, 제대로 했다",0,2
+68,Her new song slaps.,그녀 새 노래 진짜 짱이야.,(노래가) 진짜 좋다,2,4
+69,She ate that performance and left no crumbs.,그 공연을 완전 먹어치우고 빵 부스러기 하나도 남기지 않았어.,"완벽하게 해냈다, 압도적으로 잘했다",0,1
+70,That song hits different at night.,그 노래는 밤에 들으면 다르게 와.,"특별히 더 와닿는, 느낌이 다른",1,3
+71,Why are you so salty about losing?,왜 이렇게 지는 거에 짜증내?,"분해하는, 심통 난",2,3
+72,He threw shade at me in front of everyone.,그가 나한테 다들 앞에서 비아냥했어.,은근히 깎아내리는 말,2,2
+73,Her outfit is snatched.,그녀 옷 완전 멋져.,"완벽하게 잘 어울리는, 흠잡을 데 없는",2,4
+74,He showed up in some crazy drip today.,그 사람 오늘 완전 미친 옷 입고 나왔어.,멋진 패션/스타일,1,3
+75,I can't even with him right now.,지금은 저 녀석이랑은 못하겠어.,어이없어서 말도 안 나온다,1,2
+76,He's always flexing his new shoes.,그 친구는 새 신발을 자꾸 뽐내.,"과시하다, 자랑하다",2,4
+77,She ghosted me after two dates.,두 번 데이트하고 나서 그녀가 나한테 연락 끊었어.,말없이 연락을 끊다,2,4
+78,"Spill the tea, what happened?","소문 좀 풀어봐, 무슨 일 있었어?","소문, 가십 / 얘기해봐",1,3
+79,Don't be such a simp for someone who ignores you.,너를 무시하는 사람한테 그렇게 매달리지 마.,좋아하는 사람에게 지나치게 헌신하는 사람,2,4
+80,She ate that performance and left no crumbs.,그 공연을 완전 먹어치우고 흔적 하나 남기지 않았어.,"완벽하게 해냈다, 압도적으로 잘했다",0,2
+81,"Go touch grass, you're online too much.","밖에 나가서 풀도 좀 만져, 너 온라인 너무 많이 해.","밖에 나가라, 인터넷 좀 그만해라",1,2
+82,I was shook when he walked in.,그가 들어왔을 때 깜짝 놀랐어.,"충격받은, 놀라서 흔들린",2,5
+83,He's always flexing his new shoes.,걔는 새 신발을 자꾸 뽐내.,"과시하다, 자랑하다",2,4
+84,Chat is acting like NPCs right now.,채팅이 지금 NPC처럼 행동하고 있어.,생각 없이 똑같이 반응하는 사람들,2,4
+85,I was shook when he walked in.,그가 들어왔을 때 깜짝 놀랐어.,"충격받은, 놀라서 흔들린",2,5
+86,"Spill the tea, what happened?","뭐 있었는지 말해봐, 무슨 일 있었어?","소문, 가십 / 얘기해봐",2,3
+87,"Messi is the GOAT, no debate.","메시는 역대 최고야, 논쟁할 여지 없어.",역대 최고,2,5
+88,"Honestly, that movie was mid.",솔직히 그 영화는 그냥 그랬어.,"그저 그런, 별로인",2,5
+89,Chat is acting like NPCs right now.,채팅이 지금 NPC처럼 굴고 있어.,생각 없이 똑같이 반응하는 사람들,2,5
+90,That guy lives in your head rent free.,그 녀석은 네 머릿속에 공짜로 살아.,계속 머릿속을 차지하고 있다,1,2
