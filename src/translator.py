@@ -1,4 +1,4 @@
-"""Kai-Talk: 미국 스트리머 슬랭 -> 한국 인터넷 방송 말투 번역기 (few-shot prompting)
+"""Kai-Talk: 미국 스트리머 슬랭 -> 한국어 번역기 (few-shot prompting)
 
 모델을 학습시키지 않고, 데이터셋에서 입력과 관련된 예시를 골라 프롬프트에 넣는 방식입니다.
 """
@@ -21,14 +21,34 @@ DICT_MARKER = "0:00"  # 구버전 CSV 호환용 (새 CSV는 kind 컬럼으로 �
 N_RELEVANT = 8        # 입력과 관련된 예시 최대 개수
 N_RANDOM = 5          # 말투 참고용 랜덤 예시 개수
 
-SYSTEM_PROMPT = """너는 미국 스트리머 Kai Cenat의 방송 영어를 한국 인터넷 방송(치지직, 아프리카TV, 디시, 펨코) 채팅창 말투로 옮기는 번역가야.
+# 톤별 설정: 프롬프트와, 예시로 쓸 CSV 컬럼이 함께 바뀝니다.
+#   neutral : 뜻과 뉘앙스를 살린 자연스러운 구어체 (기본값)
+#   inbang  : 한국 인터넷 방송/커뮤니티 말투
+TONES = {
+    "neutral": {
+        "column": "translated_neutral",
+        "prompt": """너는 미국 스트리머 Kai Cenat의 방송 영어를 한국어 자막으로 옮기는 번역가야.
+
+규칙:
+1. 먼저 문장의 실제 의미와 뉘앙스(감정, 강도, 장난스러운 정도)를 정확히 파악하고 그대로 옮겨. 원문에 없는 내용을 덧붙이거나 의미를 바꾸지 마.
+2. 슬랭은 직역하지 말고, 한국어로 같은 뜻과 느낌이 나는 자연스러운 표현으로 바꿔. [참고 예시]에 같은 표현이 있으면 그 뜻과 뉘앙스를 따르되, 문장에 맞게 어미와 조사를 바꿔서 써.
+3. 말투는 자연스러운 구어체 반말로 해. 인터넷 커뮤니티 은어, 초성 표현(ㄹㅇ, ㅇㅈ 등), 욕설과 비속어는 쓰지 마. 거친 감정은 '진짜, 완전, 너무' 같은 강조로 전달해.
+4. 슬랭이 없는 평범한 문장은 평범하게 번역하고, 원문에 없는 강조나 감탄사를 붙이지 마.
+5. 번역문 한 줄만 출력해. 설명, 따옴표, 원문은 쓰지 마.""",
+    },
+    "inbang": {
+        "column": "translated_text",
+        "prompt": """너는 미국 스트리머 Kai Cenat의 방송 영어를 한국 인터넷 방송(치지직, 아프리카TV, 디시, 펨코) 채팅창 말투로 옮기는 번역가야.
 
 규칙:
 1. 먼저 문장의 실제 의미를 정확히 파악하고, 그 의미를 한국 인방 말투로 옮겨. 원문에 없는 내용을 덧붙이거나 의미를 바꾸지 마.
 2. 아래 [참고 예시]에 같은 표현이 있으면 그 뉘앙스를 따르되, 단어를 그대로 끼워 넣지 말고 문장의 문법에 맞게 어미와 조사를 바꿔 자연스럽게 써.
 3. 슬랭이 없는 평범한 문장도 같은 말투로 번역해.
 4. 반말과 커뮤니티 말투(ㅋㅋ, ㄹㅇ, ~임 등)를 자연스럽게 써. 욕설은 원문의 강도에 맞을 때만 써.
-5. 번역문 한 줄만 출력해. 설명, 따옴표, 원문은 쓰지 마."""
+5. 번역문 한 줄만 출력해. 설명, 따옴표, 원문은 쓰지 마.""",
+    },
+}
+DEFAULT_TONE = "neutral"
 
 # ---------------------------------------------------------------- 내부 상태
 _client = None
@@ -52,11 +72,14 @@ def load_data():
         df = pd.read_csv(DATA_PATH).dropna(subset=["text", "translated_text"])
         if "kind" not in df.columns:  # 구버전 CSV: 0:00 타임스탬프 = 사전 항목
             df["kind"] = df["timestamp"].astype(str).map(lambda t: "term" if t == DICT_MARKER else "sentence")
+        if "translated_neutral" not in df.columns:  # 구버전 CSV 호환
+            df["translated_neutral"] = ""
         if "note" not in df.columns:
             df["note"] = ""
         if "style_ok" not in df.columns:
             df["style_ok"] = "Y"
         df["note"] = df["note"].fillna("")
+        df["translated_neutral"] = df["translated_neutral"].fillna("")
         df["style_ok"] = df["style_ok"].fillna("")
         _df = df.reset_index(drop=True)
     return _df
@@ -104,16 +127,18 @@ def find_relevant(df, user_input, limit=N_RELEVANT):
     return df.loc[(term_hits + usage_hits)[:limit]]
 
 
-def _format_example(row):
+def _format_example(row, column):
     note = f" ({row['note']})" if row["note"] else ""
-    return f"'{row['text']}'{note} -> {row['translated_text']}"
+    return f"'{row['text']}'{note} -> {row[column]}"
 
 
-def build_examples(user_input, mode="retrieval", seed=None):
+def build_examples(user_input, mode="retrieval", seed=None, tone=DEFAULT_TONE):
     """mode: 'none'(예시 없음) / 'random'(랜덤만) / 'retrieval'(관련 예시 + 랜덤)"""
     if mode == "none":
         return ""
+    column = TONES[tone]["column"]
     df = load_data()
+    df = df[df[column].astype(str).str.strip() != ""]  # 선택한 톤의 번역이 있는 행만 예시로 사용
     style_pool = df[(df["kind"] == "sentence") & (df["style_ok"] == "Y") & (df["text"].str.len() <= 90)]  # 말투 참고용 문장 (너무 긴 것 제외)
     if mode == "random":
         chosen = style_pool.sample(min(len(style_pool), N_RELEVANT + N_RANDOM), random_state=seed)
@@ -125,13 +150,15 @@ def build_examples(user_input, mode="retrieval", seed=None):
     else:
         raise ValueError(f"알 수 없는 mode: {mode}")
 
-    return "[참고 예시]\n" + "\n".join(_format_example(r) for _, r in chosen.iterrows())
+    return "[참고 예시]\n" + "\n".join(_format_example(r, column) for _, r in chosen.iterrows())
 
 
 # ---------------------------------------------------------------- 번역
-def translate_slang(user_input, mode="retrieval", temperature=0.7, seed=None):
-    """영어 문장을 한국 인방 말투로 번역합니다."""
-    examples = build_examples(user_input, mode=mode, seed=seed)
+def translate_slang(user_input, mode="retrieval", temperature=0.7, seed=None, tone=DEFAULT_TONE):
+    """영어 문장을 한국어로 번역합니다. tone: 'neutral'(기본) 또는 'inbang'(인방 말투)"""
+    if tone not in TONES:
+        raise ValueError(f"알 수 없는 tone: {tone} ({list(TONES)} 중 선택)")
+    examples = build_examples(user_input, mode=mode, seed=seed, tone=tone)
     user_message = f"{examples}\n\n번역할 문장: \"{user_input}\"".strip()
 
     for attempt in range(3):  # 일시적인 오류(속도 제한 등)는 최대 3번 재시도
@@ -139,7 +166,7 @@ def translate_slang(user_input, mode="retrieval", temperature=0.7, seed=None):
             response = get_client().chat.completions.create(
                 model=MODEL,
                 messages=[
-                    {"role": "system", "content": SYSTEM_PROMPT},
+                    {"role": "system", "content": TONES[tone]["prompt"]},
                     {"role": "user", "content": user_message},
                 ],
                 temperature=temperature,
@@ -152,7 +179,14 @@ def translate_slang(user_input, mode="retrieval", temperature=0.7, seed=None):
 
 
 if __name__ == "__main__":
-    print("🔥 Kai-Talk Slang Translator 가동 중... (종료: exit)")
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Kai-Talk 슬랭 번역기")
+    parser.add_argument("--tone", choices=list(TONES), default=DEFAULT_TONE,
+                        help="neutral: 뜻과 뉘앙스 위주의 구어체 (기본) / inbang: 인터넷 방송 말투")
+    args = parser.parse_args()
+
+    print(f"🔥 Kai-Talk Slang Translator 가동 중... (톤: {args.tone}, 종료: exit)")
     while True:
         try:
             user_text = input("\n[영어 슬랭 입력]: ").strip()
@@ -162,4 +196,4 @@ if __name__ == "__main__":
             continue
         if user_text.lower() == "exit":
             break
-        print(f"[한국어 번역]: {translate_slang(user_text)}")
+        print(f"[한국어 번역]: {translate_slang(user_text, tone=args.tone)}")
