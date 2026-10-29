@@ -1,101 +1,130 @@
-# 🎤 Project Kai-Talk: Hyper-Localized Slang Translator
-**Bridging the Gap: AAVE/NY Slang to Korean Gen-Z & Internet Slang**
+# 🎤 Kai-Talk: 스트리머 슬랭 번역기
 
-유튜브 자동 번역은 Kai Cenat이 **"You're cooked"**라고 할 때 **"당신은 요리되었습니다"**라고 번역합니다.
+**미국 스트리머의 슬랭과 밈을 한국어 자막으로 자연스럽게 옮기는 번역기와, 그 평가 결과**
 
-Project Kai-Talk은 이러한 문화적·언어적 한계를 극복하기 위해 탄생했습니다. 미국 스트리밍 씬의 날것 그대로인 슬랭을 한국 인터넷 방송(치지직, 아프리카TV) 및 커뮤니티(디시, 펨코) 감성으로 **초현지화(Hyper-localization)** 하는 데이터셋과 번역 엔진을 제공합니다.
+## 왜 만들었나
 
----
+요즘 미국에서는 스트리머가 연예인만큼, 때로는 그 이상으로 영향력이 큽니다. Kai Cenat, IShowSpeed, Jason the Ween, Marlon, DDG 같은 스트리머들은 AAVE 기반 슬랭과 Gen-Z 밈을 많이 쓰는데, 유튜브 자동 번역이나 트위치 번역은 이를 거의 직역해서 의미도 분위기도 전해지지 않습니다.
 
-## 🚀 Why Kai-Talk? (Benchmark)
+방송을 즐겨 보는 시청자로서 이 간극이 아쉬워서, **슬랭의 뜻과 뉘앙스를 살린 한국어 번역**을 만들어 보기로 했습니다.
 
-기존 번역기와의 압도적인 차이를 확인하세요.
+## 어떻게 동작하나
 
-| Original Text (Kai Cenat) | YouTube Auto-Translate | Kai-Talk (Ours) |
+모델을 학습시키지 않고, **few-shot prompting + 슬랭 사전 검색**으로 동작합니다.
+
+```
+입력 문장 → 슬랭 사전에서 관련 항목 검색 → (뜻풀이 + 사용 예문)을 프롬프트에 포함 → LLM 번역
+```
+
+1. 입력 문장에 등장하는 슬랭(`glazing`, `cooked` 등, 활용형 포함)을 사전에서 찾습니다.
+2. 그 슬랭의 뜻풀이와, 실제 문장에서 쓰인 예문을 프롬프트에 넣습니다.
+3. LLM(Groq API)이 의미와 뉘앙스를 살려 한국어로 옮깁니다.
+
+**번역 톤은 두 가지**입니다.
+
+| 톤 | 설명 |
+|---|---|
+| `neutral` (기본) | 뜻과 뉘앙스 위주의 자연스러운 구어체. 은어·욕설 없이 |
+| `inbang` | 한국 인터넷 방송/커뮤니티 말투 |
+
+## 번역 예시 (neutral)
+
+| 원문 | 번역 |
+|---|---|
+| Why are you glazing him so hard? | 왜 그렇게 그 사람을 과하게 띄워줘? |
+| Chat, he is so cooked right now | 채팅, 저 사람 지금 완전 끝났네. |
+| No cap, that was valid | 거짓말 아니야, 그거 인정할 만했어 |
+| Let him cook, bro | 걔 하는 거 지켜보자, 브로 |
+| I'm going to the store tomorrow | 내일 가게에 갈 거야. |
+
+## 평가
+
+예시를 어떻게 고르느냐가 번역 품질에 얼마나 영향을 주는지 측정했습니다.
+
+**방법**: 학습 데이터에 없는 테스트 문장 50개(슬랭 40 + 평범한 문장 10)를 3가지 조건으로 번역(temperature 0)하고, 조건을 가린 채 섞어서 채점했습니다.
+
+- **예시 없음**: 프롬프트에 예시 없이 번역
+- **랜덤 예시**: 데이터에서 무작위로 고른 예시 포함
+- **검색 예시**: 입력에 등장한 슬랭의 뜻풀이와 사용 예문 포함
+
+채점 기준은 *의미* 0/1/2점(2점 = 정확), *자연스러움* 1~5점입니다.
+
+**결과 (슬랭 문장 40개)**
+
+| 조건 | 의미 정확률 | 자연스러움 |
 |---|---|---|
-| "Yo, he's actually cooked." | "요, 그는 실제로 요리되었습니다." | "와 저 새끼 진짜 나락 갔네(좆됐네)." |
-| "Stop glazing that man!" | "그 남자를 유리하게 하지 마세요!" | "야, 걔 후빨 뇌절 좀 그만해 진짜." |
-| "I gotta stand on business." | "나는 사업을 시작해야 합니다." | "나도 내 가오는 살려야지 ㅇㅋ?" |
-| "He's tweaking right now." | "그는 지금 미세 조정 중입니다." | "쟤 지금 맛탱이 갔네 ㅋㅋㅋ" |
+| 예시 없음 | 57% | 3.10 |
+| 랜덤 예시 | 55% | 3.25 |
+| **검색 예시** | **88%** | **3.80** |
 
----
+- 슬랭 문장에서는 **관련 예시를 검색해서 넣을 때** 의미 정확률이 크게 올랐고, 랜덤 예시는 효과가 없었습니다.
+- 평범한 문장 10개에서는 조건 간 차이가 거의 없었습니다 (100% / 100% / 90%, 한 문장 차이).
 
-## 🛠️ System Architecture
+### 평가의 한계
 
-이 프로젝트는 데이터 수집부터 최종 애플리케이션까지의 전체 파이프라인을 포함합니다.
+- **테스트에 쓴 슬랭이 모두 사전에 들어 있습니다.** 이 결과는 "사전에 있는 슬랭을 잘 번역하는가"이며, 사전에 없는 새 슬랭에 일반화되는지는 측정하지 못했습니다.
+- 문장 수가 적고(40개), 한 번만 실행했습니다.
+- 채점자가 한 명입니다. AI가 초벌 채점한 뒤 직접 검수했습니다. ⚠️확인: 검수 방식이 사실과 맞는지
+- 테스트 문장을 직접 작성했습니다.
 
-**Data Mining:**
-Faster-Whisper (STT)를 활용해 수 시간 분량의 라이브 스트림에서 슬랭 키워드가 포함된 문장을 자동 추출합니다.
+## 데이터
 
-**Dataset Curation:**
-추출된 Raw Data를 Claude 3.5와 GPT-4o를 통해 레이블링하고, 한국 인방 고인물의 검수를 거쳐 찰진 병렬 코퍼스(Parallel Corpus)를 구축했습니다.
+- **범위**: Kai Cenat 방송에서만 추출했습니다. 발음이 또렷해 음성 인식(STT) 정확도가 높고, 본인이 만든 용어가 많기 때문입니다. 다른 스트리머에는 검증하지 않았습니다.
+- **구성** (`data/kai_slang_translated.csv`): 슬랭 사전 49개 + 문장 약 140개. 항목마다 뜻풀이(`note`)와 두 가지 톤의 번역(`translated_neutral`, `translated_text`)이 있습니다.
+- **제작 과정**: 영상에서 전사한 문장을 LLM으로 초벌 번역한 뒤 직접 검수·수정했습니다. 중립 톤 번역과 일부 사용 예문은 AI의 도움을 받아 작성했습니다. ⚠️확인: 실제 과정과 맞는지 수정해 주세요
 
-**Slang Translator:**
-구축된 데이터셋을 기반으로 Few-shot Learning 기법을 적용, 새로운 문장이 입력되어도 데이터셋의 '말투'와 '맥락'을 그대로 복제하여 번역합니다.
+## 개발하면서 고친 문제들
 
----
+실제로 겪은 문제와 해결 과정입니다.
 
-## 📦 Project Structure
+| 문제 | 원인 | 해결 |
+|---|---|---|
+| 번역이 갑자기 실패 | 사용하던 Groq 모델(`llama-3.3-70b-versatile`)이 종료됨 | 모델명을 환경변수로 분리 (`GROQ_MODEL`) |
+| 사전의 `No cap`이 "구라"로 번역되어 의미가 정반대 | 사전 데이터 오류 | 데이터 전수 점검 후 수정, 뜻풀이(`note`) 컬럼 추가 |
+| 프롬프트에 정답 번역이 박혀 있어 벤치마크가 무의미 | 하드코딩된 규칙 | 규칙을 데이터로 이동하고 프롬프트에서 제거 |
+| 사전 단어가 문장에 어색하게 끼워짐 ("넌 후빨이네") | 사용 예문 없이 단어만 제공 | 사용 예문 검색 추가, 어미·조사 활용 지시 |
+| `bro`를 3인칭에도 "브로"로 번역 | 호칭 용법 예시만 존재 | 호칭/지칭 구분 규칙 추가 |
+| 번역 톤이 과함 | 예시 번역의 말투를 모델이 그대로 따라감 | 톤별 번역 컬럼과 프롬프트 분리 |
+
+## 사용법
+
+```bash
+pip install -r requirements.txt
+cp .env.example .env              # GROQ_API_KEY 입력
+
+python src/translator.py                  # 번역기 (기본 neutral)
+python src/translator.py --tone inbang    # 인방 말투
+python src/evaluate.py run                # 평가 번역 생성
+python src/evaluate.py summarize          # 채점 후 집계
+python src/miner.py "유튜브 주소"         # 영상에서 문장 추출 (FFmpeg 필요)
+```
+
+## 구조
 
 ```
 Kai-Talk/
 ├── src/
-│   ├── miner.py        # 유튜브 오디오 추출 및 슬랭 필터링 엔진
-│   └── translator.py   # 데이터셋 기반 슬랭 변환기 (LLM)
+│   ├── translator.py   # 슬랭 검색 + few-shot 번역
+│   ├── evaluate.py     # 조건별 번역 평가
+│   └── miner.py        # 유튜브 → STT → 문장 CSV
 ├── data/
-│   ├── kai_slang_raw.csv         # 추출된 원본 스크립트
-│   └── kai_slang_translated.csv  # [핵심 가치] 초현지화 번역 데이터셋
-├── requirements.txt    # 의존성 라이브러리
-└── .env                # API Key 관리 (Private)
+│   ├── kai_slang_translated.csv   # 슬랭 사전 + 문장 번역
+│   ├── kai_slang_raw.csv          # 추출된 원문 스크립트
+│   └── eval_set.csv               # 평가용 테스트 문장 50개
+└── requirements.txt
 ```
 
----
+## 사용 기술
 
-## 🔧 Installation & Usage
+Python, pandas, Faster-Whisper(STT), yt-dlp, Groq API(`openai/gpt-oss-120b`)
 
-### 1. Requirements
+## Roadmap
 
-```bash
-pip install -r requirements.txt
-```
+- [ ] 사전에 없는 슬랭에 대한 평가 추가
+- [ ] 다른 스트리머 문장으로 검증
+- [ ] 채점자 추가
+- [ ] 실시간 자막 오버레이
 
-> **Note:** FFmpeg 설치가 필요합니다.
+## 데이터 안내
 
-### 2. Run Slang Miner
-
-원하는 유튜브 URL에서 슬랭 데이터를 채굴합니다.
-
-```bash
-python src/miner.py
-```
-
-### 3. Run Kai-Talk Translator
-
-우리의 데이터셋으로 학습된 찰진 번역기를 실행합니다. (OpenAI 또는 Groq API 필요)
-
-```bash
-python src/translator.py
-```
-
----
-
-## 🧠 Core Technologies
-
-- **Speech-to-Text:** OpenAI Whisper (Faster-Whisper implementation)
-- **LLM Engine:** GPT-4o-mini, Llama-3.3-70b (via Groq)
-- **Data Engineering:** Pandas, Regular Expressions
-- **Labeling Strategy:** Few-shot Contextual Prompting
-
----
-
-## 📈 Future Roadmap
-
-- [ ] 데이터셋 규모 확장 (1,000+ Sentence Pairs)
-- [ ] 실시간 트위치/유튜브 자막 오버레이 개발
-- [ ] 스트리머별 고유 말투(Style Transfer) 커스텀 모델 파인튜닝
-
----
-
-## 🤝 Contribution
-
-미국 슬랭과 한국 유행어의 가교 역할을 함께하실 분들을 환영합니다. 새로운 슬랭 데이터셋 추가는 언제든 **Pull Request**를 보내주세요!
+이 레포의 데이터는 학습·연구 목적이며, 원 영상의 저작권은 각 창작자에게 있습니다.

@@ -1,0 +1,151 @@
+﻿id,type,text,condition,output
+1,slang,He has so much rizz it's unfair.,none,"그 녀석, 매력이 너무 넘쳐서 불공평해."
+1,slang,He has so much rizz it's unfair.,random,그 녀석은 매력이 넘쳐서 불공평해.
+1,slang,He has so much rizz it's unfair.,retrieval,"그 친구 이성을 사로잡는 매력이 너무 많아, 불공평해."
+2,slang,"Gyatt, did you see that?",none,"와, 그거 봤어?"
+2,slang,"Gyatt, did you see that?",random,"Gyatt, 그거 봤어?"
+2,slang,"Gyatt, did you see that?",retrieval,"와 대박, 그거 봤어?"
+3,slang,"Don't Fanum tax my fries, bro.",none,"Fanum아, 내 감자튀김에 세금 부리지 마, 야."
+3,slang,"Don't Fanum tax my fries, bro.",random,"Fanum아, 내 감자튀김에 세금 부리지 마, 브로."
+3,slang,"Don't Fanum tax my fries, bro.",retrieval,"내 감자튀김 장난으로 뺏지 마, 브로."
+4,slang,That was a huge W for the team.,none,그거 팀한테 진짜 큰 승리였어.
+4,slang,That was a huge W for the team.,random,그거 팀한테 진짜 큰 승리였어.
+4,slang,That was a huge W for the team.,retrieval,그거 팀에 큰 승리였어.
+5,slang,"Took another L today, man.",none,"오늘 또 졌어, 야."
+5,slang,"Took another L today, man.",random,"오늘 또 졌어, 야."
+5,slang,"Took another L today, man.",retrieval,"오늘 또 졌어, 야."
+6,slang,"No cap, this is the best stream ever.",none,"진짜, 이거 지금까지 본 스트림 중에 제일 최고야."
+6,slang,"No cap, this is the best stream ever.",random,"진짜, 이게 최고의 스트림이야."
+6,slang,"No cap, this is the best stream ever.",retrieval,"진짜야, 이게 지금까지 본 스트리밍 중에 제일 최고야."
+7,slang,"Deadass, I'm not joking right now.",none,진짜 지금 농담 아니야.
+7,slang,"Deadass, I'm not joking right now.",random,진짜 지금 농담 아니야.
+7,slang,"Deadass, I'm not joking right now.",retrieval,"진짜로, 지금 농담 아니야."
+8,slang,"On god, I saw him do it.",none,진짜 나 그가 하는 거 봤어.
+8,slang,"On god, I saw him do it.",random,"진짜, 내가 그가 하는 걸 봤어."
+8,slang,"On god, I saw him do it.",retrieval,"진짜, 내가 그가 하는 거 봤어."
+9,slang,"You're lying, say Wallahee.",none,"거짓말이야, Wallahee라고 해."
+9,slang,"You're lying, say Wallahee.",random,"거짓말이잖아, 와라히라고 해."
+9,slang,"You're lying, say Wallahee.",retrieval,"거짓말하잖아, 맹세한다고 말해봐."
+10,slang,"Quit glazing him, he's not that good.",none,"그 사람 너무 올려놓지 마, 그렇게 대단한 거 아니야."
+10,slang,"Quit glazing him, he's not that good.",random,"그 녀석 과대평가 그만 해, 그렇게 잘하지 않아."
+10,slang,"Quit glazing him, he's not that good.",retrieval,"걔 그만 좀 띄워, 그렇게 대단하지 않아."
+11,slang,"If he loses this round, he's cooked.",none,그 라운드에서 지면 끝장이야.
+11,slang,"If he loses this round, he's cooked.",random,그가 이번 라운드 지면 끝장이야.
+11,slang,"If he loses this round, he's cooked.",retrieval,"이번 라운드에서 지면, 그는 끝났어."
+12,slang,She's got so much motion in this city.,none,그녀는 이 도시에 움직임이 엄청 많아.
+12,slang,She's got so much motion in this city.,random,그녀는 이 도시에 엄청난 움직임이 있어.
+12,slang,She's got so much motion in this city.,retrieval,"그녀, 이 도시에서 완전 기세가 대단해."
+13,slang,That take was actually valid.,none,그 말은 사실 맞아.
+13,slang,That take was actually valid.,random,그거 사실 타당했어.
+13,slang,That take was actually valid.,retrieval,그 말은 진짜 괜찮았어.
+14,slang,He crashed out after losing the match.,none,그는 경기 졌고 바로 쓰러졌어.
+14,slang,He crashed out after losing the match.,random,그는 경기 졌고 바로 쓰러졌어.
+14,slang,He crashed out after losing the match.,retrieval,그는 경기에서 진 뒤에 화가 나서 이성을 잃었어.
+15,slang,You're bugging if you think that works.,none,그게 된다고 생각한다면 너 진짜 이상해.
+15,slang,You're bugging if you think that works.,random,"그게 된다고 생각한다면, 너 진짜 이상해."
+15,slang,You're bugging if you think that works.,retrieval,"그게 된다고 생각한다면, 너 진짜 이상하게 굴고 있어."
+16,slang,"Chat, I'm tweaking, I can't find my keys.",none,"채팅아, 나 지금 조정하고 있는데 열쇠 못 찾겠어."
+16,slang,"Chat, I'm tweaking, I can't find my keys.",random,"채팅, 나 지금 들떠 있어, 열쇠 못 찾겠어."
+16,slang,"Chat, I'm tweaking, I can't find my keys.",retrieval,"채팅아, 나 지금 정신 못 차리고 이상하게 굴어, 열쇠 못 찾겠어."
+17,slang,He walked in with crazy aura.,none,그가 미친 분위기 가지고 들어왔어.
+17,slang,He walked in with crazy aura.,random,그가 미친 아우라를 풍기며 들어왔어.
+17,slang,He walked in with crazy aura.,retrieval,그가 미친 듯한 분위기로 들어왔어.
+18,slang,Only sigma players pick this character.,none,시그마 플레이어만 이 캐릭터 골라.
+18,slang,Only sigma players pick this character.,random,시그마 플레이어만 이 캐릭터를 골라.
+18,slang,Only sigma players pick this character.,retrieval,시그마 플레이어만 이 캐릭터 골라.
+19,slang,You're delulu if you think he'll text back.,none,그가 답장할 거라고 생각한다면 넌 망상이야.
+19,slang,You're delulu if you think he'll text back.,random,그가 답장할 거라고 생각한다면 완전 헛소리야.
+19,slang,You're delulu if you think he'll text back.,retrieval,그가 답장할 거라고 생각한다면 넌 망상에 빠진 거야.
+20,slang,"Come here, pookie, I missed you.",none,"이리 와, 뽀키, 보고 싶었어."
+20,slang,"Come here, pookie, I missed you.",random,"여기 와, 푸키, 보고 싶었어."
+20,slang,"Come here, pookie, I missed you.",retrieval,"이리 와, 귀염둥이, 보고 싶었어."
+21,slang,That message is kinda sus.,none,그 메시지는 좀 수상해.
+21,slang,That message is kinda sus.,random,그 메시지 좀 수상해.
+21,slang,That message is kinda sus.,retrieval,그 메시지 좀 수상해.
+22,slang,My opps are watching my stream right now.,none,내 적들이 지금 내 스트리밍 보고 있어.
+22,slang,My opps are watching my stream right now.,random,내 적들이 지금 내 방송 보고 있어.
+22,slang,My opps are watching my stream right now.,retrieval,내 적들이 지금 내 스트리밍 보고 있어.
+23,slang,I'm about to slide on them tonight.,none,오늘 밤에 그 사람들한테 가서 뭔가 할 거야.
+23,slang,I'm about to slide on them tonight.,random,오늘 밤에 저 녀석들한테 가서 할 거야.
+23,slang,I'm about to slide on them tonight.,retrieval,오늘 밤에 저 녀석들한테 가서 할 거야.
+24,slang,He backdoored me in the last minute.,none,그 녀석이 마지막에 나한테 뒤통수 잡았어.
+24,slang,He backdoored me in the last minute.,random,그가 마지막에 뒤통수를 잡았어.
+24,slang,He backdoored me in the last minute.,retrieval,그가 마지막에 나를 배신했어.
+25,slang,"Word to my mother, I didn't touch it.",none,"엄마한테 맹세, 손대지 않았어."
+25,slang,"Word to my mother, I didn't touch it.",random,"엄마한테 맹세, 안 건드렸어."
+25,slang,"Word to my mother, I didn't touch it.",retrieval,"엄마를 걸고 맹세해, 안 건드렸어."
+26,slang,"Chat, is this real? He actually did it!",none,"채팅아, 이거 진짜야? 그가 진짜 해버렸어!"
+26,slang,"Chat, is this real? He actually did it!",random,"채팅, 이거 진짜야? 쟤 진짜 해버렸어!"
+26,slang,"Chat, is this real? He actually did it!",retrieval,"채팅아, 이거 진짜야? 그 사람 진짜 해버렸어!"
+27,slang,He said he'd show up and he stood on business.,none,"그는 올 거라고 했고, 일에 진심이었어."
+27,slang,He said he'd show up and he stood on business.,random,"그는 올 거라고 했고, 말한 대로 행동했어."
+27,slang,He said he'd show up and he stood on business.,retrieval,"그는 올 거라고 했고, 약속을 지켰어."
+28,slang,"Just let him cook, he knows what he's doing.",none,"그냥 놔둬, 걔는 뭘 하는지 알아."
+28,slang,"Just let him cook, he knows what he's doing.",random,"그냥 놔둬, 저 녀석이 뭘 하는지 알아."
+28,slang,"Just let him cook, he knows what he's doing.",retrieval,"그냥 걔 하는 거 내버려 둬, 걔가 뭘 하는지 알아."
+29,slang,"Alright chat, time to lock in.",none,"자, 채팅아, 이제 확정할 시간이야."
+29,slang,"Alright chat, time to lock in.",random,"좋아, 채팅, 이제 확정할 시간이야."
+29,slang,"Alright chat, time to lock in.",retrieval,"좋아, 채팅, 이제 집중해."
+30,slang,Why are you yapping so much?,none,왜 이렇게 많이 떠들어?
+30,slang,Why are you yapping so much?,random,왜 이렇게 떠들어?
+30,slang,Why are you yapping so much?,retrieval,왜 이렇게 쓸데없는 말만 떠들어?
+31,slang,"I'm geeking right now, this is amazing!",none,"지금 완전 열광 중이야, 진짜 대박이야!"
+31,slang,"I'm geeking right now, this is amazing!",random,"지금 완전 열광하고 있어, 이거 대박!"
+31,slang,"I'm geeking right now, this is amazing!",retrieval,"지금 완전 신나, 이거 진짜 대박!"
+32,slang,He said that? Pause.,none,그가 그 말했어? 잠깐.
+32,slang,He said that? Pause.,random,그가 그 말했어? 잠깐.
+32,slang,He said that? Pause.,retrieval,그가 그 말했어? 잠깐.
+33,slang,He's just clout chasing at this point.,none,걔 지금은 그냥 주목받으려고만 해.
+33,slang,He's just clout chasing at this point.,random,그 애는 지금 완전 인기도만 쫓고 있어.
+33,slang,He's just clout chasing at this point.,retrieval,그 사람은 지금 그냥 인지도 쫓는 거야.
+34,slang,Got ratioed by his own fans.,none,자기 팬들한테 비율 맞았어.
+34,slang,Got ratioed by his own fans.,random,그 사람 팬들에게 비율 맞았어.
+34,slang,Got ratioed by his own fans.,retrieval,자신 팬들한테 답글이 원글보다 더 호응 받아서 밀려났어.
+35,slang,"Yessir, let's go.",none,"그래, 가자."
+35,slang,"Yessir, let's go.",random,"그래, 가자."
+35,slang,"Yessir, let's go.",retrieval,"좋아, 가자."
+36,slang,"Fr fr, that's exactly what happened.",none,"진짜, 그게 바로 일어난 거야."
+36,slang,"Fr fr, that's exactly what happened.",random,"진짜, 그게 바로 일어난 거야."
+36,slang,"Fr fr, that's exactly what happened.",retrieval,"진짜로, 그게 바로 일어난 일이야."
+37,slang,Bro said he's finna quit streaming.,none,그 친구가 스트리밍을 그만두겠다고 했어.
+37,slang,Bro said he's finna quit streaming.,random,쟤가 스트리밍 끊을 거라고 했어.
+37,slang,Bro said he's finna quit streaming.,retrieval,걔가 스트리밍 그만두려고 한다고 했어.
+38,slang,I caught a stray from that argument.,none,그 논쟁에서 한 마디 잡아냈어.
+38,slang,I caught a stray from that argument.,random,그 논쟁에서 한 마디 잡아냈어.
+38,slang,I caught a stray from that argument.,retrieval,그 논쟁에서 상관없는 공격에 휘말렸어.
+39,slang,"Stop playing, you know it's not funny.",none,"그만 장난쳐, 웃기지 않는 거 알잖아."
+39,slang,"Stop playing, you know it's not funny.",random,"그만 장난쳐, 웃기지 않아."
+39,slang,"Stop playing, you know it's not funny.",retrieval,"장난 그만해, 웃기지 않아."
+40,slang,"I'm dead, that clip is insane.",none,"진짜 죽겠어, 그 클립 미쳤다."
+40,slang,"I'm dead, that clip is insane.",random,"죽겠어, 그 클립 진짜 미쳤다."
+40,slang,"I'm dead, that clip is insane.",retrieval,"너무 웃겨서 죽겠어, 그 클립 진짜 대박이야."
+41,plain,Can you send me the link?,none,링크 좀 보내줄래?
+41,plain,Can you send me the link?,random,링크 좀 보내줄래?
+41,plain,Can you send me the link?,retrieval,링크 좀 보내줄래?
+42,plain,I'm going to the grocery store later.,none,나 나중에 마트 갈 거야.
+42,plain,I'm going to the grocery store later.,random,나 나중에 마트 갈 거야.
+42,plain,I'm going to the grocery store later.,retrieval,나 나중에 마트 갈 거야.
+43,plain,We should start the stream in ten minutes.,none,우리 10분 뒤에 스트리밍 시작하자.
+43,plain,We should start the stream in ten minutes.,random,우린 10분 뒤에 스트리밍 시작하자.
+43,plain,We should start the stream in ten minutes.,retrieval,우린 10분 뒤에 스트리밍 시작하면 돼.
+44,plain,I didn't sleep well last night.,none,어제 밤에 잠을 잘 못 잤어.
+44,plain,I didn't sleep well last night.,random,어제 밤에 잠을 잘 못 잤어.
+44,plain,I didn't sleep well last night.,retrieval,어제 밤에 잠을 잘 못 잤어.
+45,plain,"Thanks for the gift, I really appreciate it.",none,"선물 고마워, 정말 고마워."
+45,plain,"Thanks for the gift, I really appreciate it.",random,"선물 고마워, 진짜 고마워."
+45,plain,"Thanks for the gift, I really appreciate it.",retrieval,"선물 고마워, 진짜 고마워."
+46,plain,What game are we playing next?,none,다음에 무슨 게임 할 거야?
+46,plain,What game are we playing next?,random,다음에 무슨 게임 할 거야?
+46,plain,What game are we playing next?,retrieval,다음에 무슨 게임 할 거야?
+47,plain,He scored in the last second.,none,그가 마지막 1초에 득점했어.
+47,plain,He scored in the last second.,random,그가 마지막 초에 득점했어.
+47,plain,He scored in the last second.,retrieval,그는 마지막 1초에 득점했어.
+48,plain,I'll call you when I get home.,none,집에 도착하면 전화할게.
+48,plain,I'll call you when I get home.,random,집에 도착하면 전화할게.
+48,plain,I'll call you when I get home.,retrieval,집에 도착하면 전화할게.
+49,plain,That movie was longer than I expected.,none,그 영화가 생각보다 길었어.
+49,plain,That movie was longer than I expected.,random,그 영화는 내가 예상한 것보다 길었어.
+49,plain,That movie was longer than I expected.,retrieval,그 영화가 생각보다 길었어.
+50,plain,Where did you buy those shoes?,none,그 신발 어디서 샀어?
+50,plain,Where did you buy those shoes?,random,그 신발 어디서 샀어?
+50,plain,Where did you buy those shoes?,retrieval,그 신발 어디서 샀어?
