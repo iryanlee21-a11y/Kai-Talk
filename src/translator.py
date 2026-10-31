@@ -185,7 +185,8 @@ def translate_slang(user_input, mode="retrieval", temperature=0.7, seed=None, to
                 ],
                 temperature=temperature,
             )
-            return response.choices[0].message.content.strip().strip('"“”')
+            text = response.choices[0].message.content.strip().strip('"“”')
+            return text.replace("\u2011", "-")  # 줄바꿈 방지 하이픈(7‑Eleven)은 글꼴에 따라 깨지므로 일반 하이픈으로
         except Exception:
             if attempt == 2:
                 raise

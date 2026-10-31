@@ -22,6 +22,8 @@ OUT_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "output")
 MAX_CAPTION_SEC = 6.0   # 자막 한 줄을 최대 이만큼만 보여줌
 MIN_CAPTION_SEC = 1.2
 CONTEXT_GAP_SEC = 15.0  # 이 시간보다 오래 전 줄은 문맥으로 쓰지 않음
+CHECK_CONF = 0.6        # 이보다 낮은 인식 신뢰도
+CHECK_MIN_WORDS = 3     # 단, 짧은 감탄사("What?")는 정확해도 신뢰도가 낮게 나오므로 이 단어 수 이상일 때만 표시
 
 
 def srt_time(sec):
@@ -44,6 +46,14 @@ def write_srt(df, path):
         lines.append(f"{n + 1}\n{srt_time(row['start_sec'])} --> {srt_time(end)}\n{row['translation']}\n")
     with open(path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
+
+
+def needs_check(text, conf):
+    """인식이 불확실해 보이는 줄인지: 단어가 충분히 많은데 신뢰도가 낮은 경우"""
+    try:
+        return len(str(text).split()) >= CHECK_MIN_WORDS and float(conf) < CHECK_CONF
+    except (TypeError, ValueError):
+        return False
 
 
 def get_context(df, idx, n):
@@ -91,8 +101,10 @@ def run(url, tone="neutral", model_size="small", limit=None, max_no_speech=0.6, 
             print(f"  {i}/{len(todo)}")
         time.sleep(0.3)  # 속도 제한 방지
 
+    df["check"] = [("검수" if needs_check(t, c) else "") for t, c in zip(df["text"], df["conf"])]
     df.to_csv(csv_path, index=False, encoding="utf-8-sig")
     write_srt(df, srt_path)
+    print(f"  인식이 불확실해 검수가 필요한 줄: {int((df['check'] == '검수').sum())}/{len(df)}")
     print(f"✅ 완료!\n  표: {csv_path}\n  자막: {srt_path}")
     return csv_path, srt_path
 
